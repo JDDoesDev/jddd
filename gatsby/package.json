@@ -1,0 +1,45 @@
+{
+  "name": "drupalcamp-asheville-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "drupalcamp-asheville-demo",
+  "author": "JD Flynn",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop -H 0.0.0.0",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mdx-js/react": "^2.3.0",
+    "bootstrap": "^5.1.3",
+    "dotenv": "^15.0.0",
+    "gatsby": "^5.11.0",
+    "gatsby-plugin-image": "^3.11.0",
+    "gatsby-plugin-mdx": "^5.11.0",
+    "gatsby-plugin-sass": "^6.11.0",
+    "gatsby-plugin-schema-snapshot": "^4.11.0",
+    "gatsby-plugin-sharp": "^5.11.0",
+    "gatsby-plugin-typescript": "^5.11.0",
+    "gatsby-source-drupal": "^6.11.0",
+    "gatsby-source-filesystem": "^5.11.0",
+    "gatsby-transformer-remark": "^6.11.0",
+    "gatsby-transformer-sharp": "^5.11.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.45",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "sass": "^1.63.6",
+    "sass-loader": "10.1.1",
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0"
+  }
+}

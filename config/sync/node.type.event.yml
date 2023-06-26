@@ -1,0 +1,11 @@
+uuid: 872dadd5-01cd-415c-934e-9d24275cdfba
+langcode: en
+status: true
+dependencies: {  }
+name: Event
+type: event
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

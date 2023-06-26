@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  cli:
+    extends:
+      file: ${HOME}/.docksal/stacks/services.yml
+      service: cli
+    image: ${COMPOSE_PROJECT_NAME_SAFE}_cli
+    build: ${PROJECT_ROOT}/.docksal/services/cli
+    environment:
+      - DOCKSAL_ENV=true
+      - DRUSH_OPTIONS_URI=cms.${VIRTUAL_HOST}
+      - DRUPAL_URI=http://web/
+      - "COMPOSER_MEMORY_LIMIT=-1"
+      - CHOKIDAR_USEPOLLING=${CHOKIDAR_USEPOLLING:-1}
+  static:
+    hostname: static
+    extends:
+      file: ${HOME}/.docksal/stacks/services.yml
+      service: apache
+    image: docksal/apache:2.4-2.4
+    volumes:
+      - project_root:/var/www
+    labels:
+      - io.docksal.virtual-host=static.${VIRTUAL_HOST}
+    environment:
+      - APACHE_DOCUMENTROOT=/var/www/gatsby/public
+  web:
+    hostname: web
+    image: docksal/nginx:1.21-1.2
+    volumes:
+      - project_root:/var/www  # Project root volume (read-only)
+    extends:
+      file: ${HOME}/.docksal/stacks/services.yml
+      service: nginx
+    labels:
+      - io.docksal.virtual-host=cms.${VIRTUAL_HOST}
+  preview:
+    hostname: preview
+    build: ${PROJECT_ROOT}/.docksal/services/cli
+    extends:
+      service: cli
+    image: ${COMPOSE_PROJECT_NAME_SAFE}_preview
+    labels:
+      - io.docksal.virtual-host=preview.${VIRTUAL_HOST}
+      - io.docksal.virtual-port=8000
+      - io.docksal.user=docker
+      - io.docksal.shell=bash
+    volumes:
+      # Keep write-heavy folders in a volumes (improves fs performance on non-Linux platforms)
+      - docksal_ssh_agent:/.ssh-agent  # Shared ssh-agent socket
+      - ${SSH_AUTH_SOCK_DIR}:${SSH_AUTH_SOCK_DIR} # Shared directory for SSH key forwarding support
+      - project_root:/var/www  # Project root volume
+    working_dir: /var/www/gatsby
+    depends_on:
+      - cli # cli has to start first to avoid race conditions in startup scripts between cli, php and preview
